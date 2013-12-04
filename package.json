@@ -1,0 +1,26 @@
+{
+  "name": "fakey",
+  "version": "0.0.1",
+  "description": "Fake key events for testing purposes.",
+  "author": "Jarid Margolin <jaridmargolin@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaridmargolin/fakey"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "devDependencies": {
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-clean": "~0.5.0",
+    "mocha-phantomjs": "~3.1.6",
+    "amdclean": "~0.3.0",
+    "grunt": "~0.4.1",
+    "mocha": "~1.9.0",
+    "sinon": "~1.7.3",
+    "chai": "~1.6.0"
+  },
+  "license": "MIT"
+}

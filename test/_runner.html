@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- meta -->
+        <meta charset="utf-8" />
+        <title>Fakey Tests</title>
+
+        <!-- enable responsive viewport -->
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        
+        <!-- styles -->
+        <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+    </head>
+
+    <body>
+
+        <form name="test" id="test-content">
+            <input type="text" name="test" pattern="\d*">
+        </form>
+
+        <div id="mocha"></div>
+
+        <!-- tests -->
+        <script src="../libs/requirejs/require.js"></script>
+        <script>
+            var curURL  = window.location.href.toString(),
+                curDir  = curURL.slice(0, curURL.lastIndexOf('/')),
+                rootDir = curDir.slice(0, curDir.lastIndexOf('/'));
+
+            require.config({
+              urlArgs: "bust=" + (new Date()).getTime(),
+              baseUrl: '../src',
+              paths: {
+                'mocha'     : rootDir + '/node_modules/mocha/mocha',
+                'chai'      : rootDir + '/node_modules/chai/chai'
+              }
+            });
+
+            require(['require', 'mocha'], function(require) {
+              // mocha setup
+              mocha.setup('bdd');
+              mocha.reporter('html');
+              // begin tests
+              require([
+                './fakey.js'
+              ], function(require) {
+                if (window.mochaPhantomJS) { return mochaPhantomJS.run(); }
+                mocha.run();
+              });
+            });
+        </script>
+    </body>
+</html>
