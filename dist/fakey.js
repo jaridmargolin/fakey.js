@@ -1076,10 +1076,7 @@ var fakey = function (keys, utils) {
             var pressEvt, downEvt;
             var keyPress = keys.press(char), keyDown = keys.down(char);
             var keyEvt = function (key, evtType) {
-                opts.charCodeArg = key.which;
-                opts.keyCodeArg = key.keyCode;
-                opts.shiftKeyArg = key.shiftKey;
-                return el.dispatchEvent(createKeyEvt(el, evtType, opts));
+                return el.dispatchEvent(createKeyEvt(el, evtType, key));
             };
             var inputEvt = function () {
                 return el.dispatchEvent(createInputEvt(el, 'input'));
@@ -1101,29 +1098,42 @@ var fakey = function (keys, utils) {
                 setTimeout(function () {
                     key(el, str.charAt(i));
                     if (i !== strLength - 1) {
-                        return arguments.callee(i++);
+                        i++;
+                        return loop(i);
                     }
                     if (callback) {
                         return callback();
                     }
-                }, 0.25);
+                }, 25);
             };
             loop(0);
         };
         var createKeyEvt = function (el, evtType, opts) {
-            var evt = document.createEvent('KeyboardEvent');
-            evt['keyCode'] = {
-                get: function () {
-                    return this.keyCodeVal;
-                }
-            };
-            evt['which'] = {
-                get: function () {
-                    return this.keyCodeVal;
-                }
-            };
-            (evt.initKeyboardEvent || evt.initKeyEvent).call(evt, evtType, opts.bubbles || true, opts.cancelable || true, opts.viewArg || document.defaultView, opts.ctrlKeyArg || false, opts.altKeyArg || false, opts.shiftKeyArg || false, opts.metaKeyArg || false, opts.keyCodeArg, evt.initKeyboardEvent ? opts.charCodeArg : 0);
-            evt.keyCodeVal = opts.keyCodeArg;
+            var evt = document.createEvent('Event');
+            var defaults = {
+                    altGraphKey: false,
+                    altKey: false,
+                    ctrlKey: false,
+                    detail: 0,
+                    keyIdentifier: 'false',
+                    keyLocation: 0,
+                    layerX: 0,
+                    layerY: 0,
+                    location: 0,
+                    metaKey: false,
+                    pageX: 0,
+                    pageY: 0,
+                    shiftKey: false,
+                    view: window
+                };
+            evt.initEvent(evtType, true, true);
+            var key;
+            for (key in defaults) {
+                evt[key] = defaults[key];
+            }
+            for (key in opts) {
+                evt[key] = opts[key];
+            }
             return evt;
         };
         var createInputEvt = function (el, evtType) {

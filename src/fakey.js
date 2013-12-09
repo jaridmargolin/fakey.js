@@ -28,11 +28,7 @@ var key = function (el, char, opts) {
       keyDown  = keys.down(char);
 
   var keyEvt = function (key, evtType) {
-    opts.charCodeArg = key.which;
-    opts.keyCodeArg  = key.keyCode;
-    opts.shiftKeyArg = key.shiftKey;
-    // Dispatch evt
-    return el.dispatchEvent(createKeyEvt(el, evtType, opts));
+    return el.dispatchEvent(createKeyEvt(el, evtType, key));
   };
 
   var inputEvt = function () {
@@ -67,9 +63,14 @@ var seq = function (el, str, callback) {
   var loop = function (i) {
     setTimeout(function () {
       key(el, str.charAt(i));
-      if (i !== strLength - 1) { return arguments.callee(i++); }
-      if (callback) { return callback(); }
-    }, 0.25);
+      if (i !== strLength - 1) {
+        i++;
+        return loop(i);
+      }
+      if (callback) {
+        return callback(); 
+      }
+    }, 25);
   };
 
   // Start loop at 0
@@ -80,36 +81,38 @@ var seq = function (el, str, callback) {
 // Simulate a key event
 //
 var createKeyEvt = function (el, evtType, opts) {
-  var evt  = document.createEvent('KeyboardEvent');
+  var evt  = document.createEvent('Event');
 
-  // Chromium Hack
-  // Object.defineProperty(evt, 'keyCode', {
-  //   get : function() { return this.keyCodeVal; }
-  // });
-  // Object.defineProperty(evt, 'which', {
-  //   get : function() { return this.keyCodeVal; }
-  // });
-  evt['keyCode'] = {
-    get : function() { return this.keyCodeVal; }
-  };
-  evt['which'] = {
-    get : function() { return this.keyCodeVal; }
+  var defaults = {
+    altGraphKey: false,
+    altKey: false,
+    ctrlKey: false,
+    detail: 0,
+    keyIdentifier: "false",
+    keyLocation: 0,
+    layerX: 0,
+    layerY: 0,
+    location: 0,
+    metaKey: false,
+    pageX: 0,
+    pageY: 0,
+    shiftKey: false,
+    view: window
   };
 
-  // Init event
-  (evt.initKeyboardEvent || evt.initKeyEvent).call(evt,
-    evtType,
-    opts.bubbles || true,
-    opts.cancelable || true,
-    opts.viewArg || document.defaultView,
-    opts.ctrlKeyArg || false,
-    opts.altKeyArg || false,
-    opts.shiftKeyArg || false,
-    opts.metaKeyArg || false,
-    opts.keyCodeArg,
-    evt.initKeyboardEvent ? opts.charCodeArg : 0
+  evt.initEvent(evtType,
+    true,
+    true
   );
-  evt.keyCodeVal = opts.keyCodeArg;
+
+  // Mixin values
+  var key;
+  for (key in defaults) {
+    evt[key] = defaults[key];
+  }
+  for (key in opts) {
+    evt[key] = opts[key];
+  }
 
   // Return evt
   return evt; 

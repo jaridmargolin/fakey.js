@@ -39,6 +39,9 @@
             require(['fakey'], function(fakey) {
               // Element
               var el = document.forms[0]['test'];
+              el.addEventListener('keypress', function (evt) {
+                console.log(evt);
+              });
               fakey.seq(el, 'I type anything I want');
             });
         </script>
