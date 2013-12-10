@@ -1072,7 +1072,54 @@ var utils = function () {
     }();
 var fakey = function (keys, utils) {
         curPos = 0;
-        var key = function (el, char, opts) {
+        var key = function (el, char, count, callback) {
+            normalizeCall(triggerKey, el, char, count, callback);
+        };
+        var str = function (el, str, count, callback) {
+            normalizeCall(triggerStr, el, str, count, callback);
+        };
+        var seq = function (el, sequence, callback) {
+            var seqLength = sequence.length;
+            loop(0, function (i) {
+                var callee = arguments.callee, item = sequence[i];
+                var method = item.key ? key : str, value = item.key || item.str;
+                normalizeSeqCall(method, el, value, item.count, function () {
+                    return next(i, seqLength, callee, callback);
+                });
+            });
+        };
+        var loop = function (i, fn) {
+            setTimeout(function () {
+                fn(i);
+            }, 1);
+        };
+        var next = function (i, length, fn, callback) {
+            i++;
+            return i === length ? callback ? callback() : true : loop(i, fn);
+        };
+        var normalizeCall = function (fn, el, val, count, callback) {
+            if (!count || typeof count == 'function') {
+                fn(el, val, count);
+            } else {
+                loop(0, function (i) {
+                    var callee = arguments.callee;
+                    fn(el, val, function () {
+                        next(i, count, callee, callback);
+                    });
+                });
+            }
+        };
+        var normalizeSeqCall = function (fn, el, val, count, callback) {
+            return count ? fn(el, val, count, callback) : fn(el, val, callback);
+        };
+        var triggerStr = function (el, str, callback) {
+            var strLength = str.length;
+            loop(0, function (i) {
+                key(el, str.charAt(i));
+                next(i, strLength, arguments.callee, callback);
+            });
+        };
+        var triggerKey = function (el, char, callback) {
             var pressEvt, downEvt;
             var keyPress = keys.press(char), keyDown = keys.down(char);
             var keyEvt = function (key, evtType) {
@@ -1081,32 +1128,17 @@ var fakey = function (keys, utils) {
             var inputEvt = function () {
                 return el.dispatchEvent(createInputEvt(el, 'input'));
             };
-            if (!opts) {
-                opts = {};
-            }
             if (keyDown && keyEvt(keyDown, 'keydown')) {
+                if (char == 'backspace') {
+                    removeChar(el);
+                }
                 if (keyPress && keyEvt(keyPress, 'keypress')) {
                     addChar(el, char);
                     inputEvt();
                 }
             }
             keyEvt(keyDown, 'keyup');
-        };
-        var seq = function (el, str, callback) {
-            var strLength = str.length;
-            var loop = function (i) {
-                setTimeout(function () {
-                    key(el, str.charAt(i));
-                    if (i !== strLength - 1) {
-                        i++;
-                        return loop(i);
-                    }
-                    if (callback) {
-                        return callback();
-                    }
-                }, 25);
-            };
-            loop(0);
+            return callback ? callback() : true;
         };
         var createKeyEvt = function (el, evtType, opts) {
             var evt = document.createEvent('Event');
@@ -1146,8 +1178,14 @@ var fakey = function (keys, utils) {
             curPos++;
             utils.setSel(el, curPos);
         };
+        var removeChar = function (el) {
+            el.value = utils.remChars(el.value, curPos - 1, curPos);
+            curPos--;
+            utils.setSel(el, curPos);
+        };
         return {
             key: key,
+            str: str,
             seq: seq
         };
     }(keys, utils);

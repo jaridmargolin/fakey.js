@@ -52,7 +52,6 @@ var testKey = function () {
   it('Should break chain if preventDefault called on keypress', function () {
     el.addEventListener('keypress', function (evt) {
       evt.preventDefault();
-      
     });
     el.addEventListener('input', function (evt) {
       assert.fail();
@@ -75,9 +74,33 @@ var testKey = function () {
     fakey.key(el, 'a');
     assert.equal(utils.getSel(el).begin, 1);
   });
-  it('Should add key character to element value', function () {
+  it('Should add key character', function () {
     fakey.key(el, 'a');
     assert.equal(el.value, 'a');
+  });
+  it('Should add key n times', function (done) {
+    fakey.key(el, 'a', 4, function () {
+      assert.equal(el.value, 'aaaa');
+      done();
+    });
+  });
+};
+
+//
+// Set properly execute key method
+//
+var testStr = function () {
+  it('Should add multiple characters', function (done) {
+    fakey.str(el, 'abc def', function () {
+      assert.equal(el.value, 'abc def');
+      done();
+    });
+  });
+  it('Should add multiple characters n times', function (done) {
+    fakey.str(el, '42', 2, function () {
+      assert.equal(el.value, '4242');
+      done();
+    });
   });
 };
 
@@ -85,9 +108,37 @@ var testKey = function () {
 // Set properly execute key method
 //
 var testSeq = function () {
-  it('Should add multiple characters to element value', function (done) {
-    fakey.seq(el, 'abc def', function () {
-      assert.equal(el.value, 'abc def');
+  it('Should add key', function (done) {
+    fakey.seq(el, [
+        { key: 'a' }
+    ], function () {
+      assert.equal(el.value, 'a');
+      done();
+    });
+  });
+  it('Should add str', function (done) {
+    fakey.seq(el, [
+        { str: 'abc' }
+    ], function () {
+      assert.equal(el.value, 'abc');
+      done();
+    });
+  });
+  it('Should handle count', function (done) {
+    fakey.seq(el, [
+        { key: 'a', count: 4 }
+    ], function () {
+      assert.equal(el.value, 'aaaa');
+      done();
+    });
+  });
+  it('Should add items in seq', function (done) {
+    fakey.seq(el, [
+        { key: 'a' },
+        { str: 'bcd' },
+        { key: 'backspace' }
+    ], function () {
+      assert.equal(el.value, 'abc');
       done();
     });
   });
@@ -103,10 +154,12 @@ describe('ui', function () {
   // Reset HTML
   afterEach(function () {
     content.innerHTML = contentHTML;
+    curPos = 0;
   });
 
   // Tests
   describe('key', testKey);
+  describe('str', testStr);
   describe('seq', testSeq);
 });
 

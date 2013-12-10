@@ -16,9 +16,107 @@ define([
 curPos = 0;
 
 //
+// Parse and trigger key
+//
+var key = function (el, char, count, callback) {
+  normalizeCall(triggerKey, el, char, count, callback);
+};
+
+//
+// Parse and start seq
+//
+var str = function (el, str, count, callback) {
+  normalizeCall(triggerStr, el, str, count, callback);
+};
+
+//
+// Key sequence
+//
+var seq = function (el, sequence, callback) {
+  // Cache array length
+  var seqLength = sequence.length;
+
+  // Start loop at 0
+  loop(0, function (i) {
+    // Loop vars
+    var callee = arguments.callee,
+        item   = sequence[i];
+
+    // Item vars
+    var method = (item.key) ? key : str,
+        value  = (item.key || item.str);
+
+    // Call method with correct vars
+    normalizeSeqCall(method, el, value, item.count, function () {
+      return next(i, seqLength, callee, callback);
+    });
+  });  
+};
+
+//
+// Loop a delay between each key
+//
+var loop = function (i, fn) {
+  setTimeout(function () {
+    fn(i);
+  }, 1);
+};
+
+//
+// Decide what to do next in loop
+//
+var next = function (i, length, fn, callback) {
+  i++;
+  return (i === length)
+    ? (callback) ? callback() : true
+    : loop(i, fn);
+};
+
+//
+// Helper to call method with correct args
+//
+var normalizeCall = function(fn, el, val, count, callback) {
+  if (!count || typeof count == 'function') {
+    fn(el, val, count);
+  } else {
+    // Start loop at 0
+    loop(0, function (i) {
+      // Cache callee
+      var callee = arguments.callee;
+      fn(el, val, function () {
+        next(i, count, callee, callback);
+      });
+    });
+  }
+};
+
+//
+// Helper to call seq method with correct args
+//
+var normalizeSeqCall = function (fn, el, val, count, callback) {
+  return (count)
+    ? fn(el, val, count, callback)
+    : fn(el, val, callback);
+};
+
+//
+// Trigger multiple keyboard inputs
+//
+var triggerStr = function (el, str, callback) {
+  // Cache length lookup
+  var strLength = str.length;
+
+  // Start loop at 0
+  loop(0, function (i) {
+    key(el, str.charAt(i));
+    next(i, strLength, arguments.callee, callback);
+  });
+};
+
+//
 // Trigger keyboard input
 //
-var key = function (el, char, opts) {
+var triggerKey = function (el, char, callback) {
   // Evts
   var pressEvt, downEvt;
 
@@ -34,12 +132,12 @@ var key = function (el, char, opts) {
   var inputEvt = function () {
     return el.dispatchEvent(createInputEvt(el, 'input'));
   };
-
-  // If no opts passed, create blank obj
-  if (!opts) { opts = {}; }
   
   // Down
   if (keyDown && keyEvt(keyDown, 'keydown')) {
+    if (char == 'backspace') {
+      removeChar(el);
+    }
     // Press
     if (keyPress && keyEvt(keyPress, 'keypress')) {
       // Add char
@@ -51,30 +149,11 @@ var key = function (el, char, opts) {
 
   // Up
   keyEvt(keyDown, 'keyup');
-};
 
-//
-// Trigger a series of keys
-//
-var seq = function (el, str, callback) {
-  var strLength = str.length;
-
-  // Add a delay between each key
-  var loop = function (i) {
-    setTimeout(function () {
-      key(el, str.charAt(i));
-      if (i !== strLength - 1) {
-        i++;
-        return loop(i);
-      }
-      if (callback) {
-        return callback(); 
-      }
-    }, 25);
-  };
-
-  // Start loop at 0
-  loop(0);
+  // Callback
+  return (callback)
+    ? callback()
+    : true;
 };
 
 //
@@ -144,9 +223,21 @@ var addChar = function (el, char) {
   utils.setSel(el, curPos);
 };
 
+//
+// Add char to input
+//
+var removeChar = function (el) {
+  // Add char
+  el.value = utils.remChars(el.value, curPos-1, curPos);
+  // Move caret
+  curPos --;
+  utils.setSel(el, curPos);
+};
+
 // Expose
 return {
   key: key,
+  str: str,
   seq: seq
 };
 
