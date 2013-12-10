@@ -1,6 +1,6 @@
 {
   "name": "fakey",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Fake key events for testing purposes.",
   "author": "Jarid Margolin <jaridmargolin@gmail.com>",
   "repository": {
