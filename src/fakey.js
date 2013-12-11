@@ -12,9 +12,6 @@ define([
 ], function (keys, utils) {
 
 
-// Scope vars
-curPos = 0;
-
 //
 // Parse and trigger key
 //
@@ -216,22 +213,24 @@ var createInputEvt = function (el, evtType) {
 // Add char to input
 //
 var addChar = function (el, char) {
+  // Get curPos
+  var curPos = utils.getSel(el).begin;
   // Add char
   el.value = utils.addChars(el.value, char, curPos);
   // Move caret
-  curPos ++;
-  utils.setSel(el, curPos);
+  utils.setSel(el, curPos + 1);
 };
 
 //
 // Add char to input
 //
 var removeChar = function (el) {
+  // Get curPos
+  var curPos = utils.getSel(el).begin;
   // Add char
   el.value = utils.remChars(el.value, curPos-1, curPos);
   // Move caret
-  curPos --;
-  utils.setSel(el, curPos);
+  utils.setSel(el, curPos - 1);
 };
 
 // Expose

@@ -1071,7 +1071,6 @@ var utils = function () {
         };
     }();
 var fakey = function (keys, utils) {
-        curPos = 0;
         var key = function (el, char, count, callback) {
             normalizeCall(triggerKey, el, char, count, callback);
         };
@@ -1174,14 +1173,14 @@ var fakey = function (keys, utils) {
             return evt;
         };
         var addChar = function (el, char) {
+            var curPos = utils.getSel(el).begin;
             el.value = utils.addChars(el.value, char, curPos);
-            curPos++;
-            utils.setSel(el, curPos);
+            utils.setSel(el, curPos + 1);
         };
         var removeChar = function (el) {
+            var curPos = utils.getSel(el).begin;
             el.value = utils.remChars(el.value, curPos - 1, curPos);
-            curPos--;
-            utils.setSel(el, curPos);
+            utils.setSel(el, curPos - 1);
         };
         return {
             key: key,
