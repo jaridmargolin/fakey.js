@@ -1,14 +1,15 @@
 fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://travis-ci.org/jaridmargolin/fakey)
 =====
 
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/jaridmargolin_fakey.svg)](https://saucelabs.com/u/jaridmargolin_fakey)   
+
 	 _______ _______ _______ _______ _______ 
 	|\     /|\     /|\     /|\     /|\     /|
 	| +---+ | +---+ | +---+ | +---+ | +---+ |
 	| | f | | | a | | | k | | | e | | | y | |
 	| +---+ | +---+ | +---+ | +---+ | +---+ |
 	|/_____\|/_____\|/_____\|/_____\|/_____\|
-	
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/jaridmargolin_fakey.svg)](https://saucelabs.com/u/jaridmargolin_fakey)                                          
+	                                       
 
 Fake key events on input elements. Used internally to test formatter.js.
 
@@ -16,7 +17,7 @@ Fake key events on input elements. Used internally to test formatter.js.
 Why
 ---
 
-Testing user input is a pain, both in manual and automated testing. Selenium is great for functional testing, but has a little bit of a learning curve. Fakey was created to be a plug and play solution, written in pure js.
+Both manual and automated testing of user input is a nightmare. Selenium is great for functional testing, but has a large learning curveand requires significant setup time. Fakey was created to be a plug and play solution, written in pure js.
 
 
 Install
