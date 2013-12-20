@@ -1,7 +1,5 @@
-fakey
+fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://travis-ci.org/jaridmargolin/fakey)[![Selenium Test Status](https://saucelabs.com/buildstatus/jaridmargolin_fakey)](https://saucelabs.com/u/jaridmargolin_fakey)
 =====
-
-[![Selenium Test Status](https://saucelabs.com/buildstatus/jaridmargolin_fakey)](https://saucelabs.com/u/jaridmargolin_fakey)
 
 Fake key events for testing purposes. 
 

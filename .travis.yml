@@ -2,7 +2,8 @@ language: node_js
 node_js:
 - 0.1
 before_script:
-- npm install --no-bin-links
+  - npm install -g grunt-cli
+  - npm install --no-bin-links
 env:
   global:
   - secure: ToiH2lNOdN/0cv0MT4yJK9+YUg1H6QUZzOUJ1G22gJZ6U4BHvTSuE2sIfpXk0/08u6aUpNMBj6oSw6AUk1s3jTDufUwHxQFxnmKQgBGZ3DRuismP4VTowNvJPBm4Zz/JvZZJ+r6TGmoHt/aOgonxu3tG32NznOoRf+Vr0pzlIxQ=
