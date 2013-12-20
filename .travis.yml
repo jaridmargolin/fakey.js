@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+- 0.1
+before_script:
+- npm install --no-bin-links
+env:
+  global:
+  - secure: ToiH2lNOdN/0cv0MT4yJK9+YUg1H6QUZzOUJ1G22gJZ6U4BHvTSuE2sIfpXk0/08u6aUpNMBj6oSw6AUk1s3jTDufUwHxQFxnmKQgBGZ3DRuismP4VTowNvJPBm4Zz/JvZZJ+r6TGmoHt/aOgonxu3tG32NznOoRf+Vr0pzlIxQ=
+  - secure: Pp2z14kW+8hjGYloAQlrtkaUzTKmGapbcG7BWVFJvyctR9N46gOXQgVDbB/SHy5wzX8gBDS5I6tFfB23QLR6bCBjh3H+SnQ+C85uzSLad5KtgfcHsryWr8uoR0gOoagl7RBEb8DkJZ3Z/N4841W9S0nReS/Pjp+shw+yqer+Pi0=

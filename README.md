@@ -1,6 +1,8 @@
 fakey
 =====
 
+[![Selenium Test Status](https://saucelabs.com/buildstatus/jaridmargolin_fakey)](https://saucelabs.com/u/jaridmargolin_fakey)
+
 Fake key events for testing purposes. 
 
 
