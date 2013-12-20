@@ -1,23 +1,100 @@
-fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://travis-ci.org/jaridmargolin/fakey)[![Selenium Test Status](https://saucelabs.com/buildstatus/jaridmargolin_fakey)](https://saucelabs.com/u/jaridmargolin_fakey)
+fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://travis-ci.org/jaridmargolin/fakey)
 =====
 
-Fake key events for testing purposes. 
+	 _______ _______ _______ _______ _______ 
+	|\     /|\     /|\     /|\     /|\     /|
+	| +---+ | +---+ | +---+ | +---+ | +---+ |
+	| | f | | | a | | | k | | | e | | | y | |
+	| +---+ | +---+ | +---+ | +---+ | +---+ |
+	|/_____\|/_____\|/_____\|/_____\|/_____\|
+	
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/jaridmargolin_fakey.svg)](https://saucelabs.com/u/jaridmargolin_fakey)                                          
+
+Fake key events on input elements. Used internally to test formatter.js.
 
 
+Why
+---
 
-usage
+Testing user input is a pain, both in manual and automated testing. Selenium is great for functional testing, but has a little bit of a learning curve. Fakey was created to be a plug and play solution, written in pure js.
+
+
+Install
+-------
+
+### bower
+
+	bower install fakey
+
+
+Usage
 -----
 
-	// Single key
-	fakey.key(el, 'a', function () {});
-	fakey.key(el, 'backspace', 5, function () {});
+Include a reference to `fakey.js`
 
-	// Str
-	fakey.str(el, 'some string', function () {});
-	fakey.str(el, '4242', 4, function () {});
+( **AMD Compatible** )
 
-	// Seqeunce of keys or strings
+
+Methods
+-------
+
+Methods should not be called until the DOM is ready.
+
+#### fakey.key(el, key, *count, *callback)
+
+**OPTIONS**
+
+* **el (required)**: DOM element that you would like to fake input for.
+* **key (required)**: The key you would like to fake.
+* **count (optional)**: The ammount of times to fake the above key.
+* **callback (optional)**: Callback executed after entering the specified key n times
+
+**EXAMPLE**
+
+	fakey.key(el, 'backspace', 5, function () {
+	  // Do something
+	});
+
+#### fakey.str(el, str, *count, *callback)
+
+**OPTIONS**
+
+* **el (required)**: DOM element that you would like to fake input for.
+* **key (required)**: A string of keys you would like to fake.
+* **count (optional)**: The ammount of times to fake the above string.
+* **callback (optional)**: Callback executed after entering the specified string n times
+
+**EXAMPLE**
+
+	fakey.str(el, '4242', 4, function () {
+	  // Do something
+	});
+
+#### fakey.seq(el, seq, *callback)
+
+**OPTIONS**
+
+* **el (required)**: DOM element that you would like to fake input for.
+* **seq (required)**: An array of objects representing keys and strings to sequentially fake.
+* **callback (optional)**: Callback executed after entering the specified key n times
+
+**EXAMPLE**
+
 	fakey.seq(el, [
 	  { str: '4242', count: 4 },
 	  { key: 'backspace', count: 8 }
-	], function () {});
+	], function () {
+	  // Do something
+	});
+
+
+License
+-------
+
+The MIT License (MIT) Copyright (c) 2013 Jarid Margolin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
