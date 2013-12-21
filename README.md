@@ -3,15 +3,10 @@ fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://t
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/jaridmargolin_fakey.svg)](https://saucelabs.com/u/jaridmargolin_fakey)   
 
-	 _______ _______ _______ _______ _______ 
-	|\     /|\     /|\     /|\     /|\     /|
-	| +---+ | +---+ | +---+ | +---+ | +---+ |
-	| | f | | | a | | | k | | | e | | | y | |
-	| +---+ | +---+ | +---+ | +---+ | +---+ |
-	|/_____\|/_____\|/_____\|/_____\|/_____\|
-	                                       
+![fakey](https://i.cloudup.com/GWoPR8trbs.gif)
 
-Fake key events on input elements. Used internally to test formatter.js.
+
+Fake user key events on input elements.
 
 
 Why
