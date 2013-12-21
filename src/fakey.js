@@ -11,6 +11,12 @@ define([
   'utils'
 ], function (keys, utils) {
 
+// Crossbrowser creatEvent
+var createEvent = function (evt) {
+  return (document.createEvent)
+    ? document.createEvent(evt)
+    : document.createEventObject();
+};
 
 //
 // Parse and trigger key
@@ -122,12 +128,23 @@ var triggerKey = function (el, char, callback) {
   var keyPress = keys.press(char),
       keyDown  = keys.down(char);
 
+  var triggerEvent = function (el, type, evt) {
+    // Normal browser
+    if (el.dispatchEvent) {
+      return el.dispatchEvent(evt);
+    } else if (type !== 'input') {
+      return el.fireEvent('on' + type, evt);
+    } else {
+      return false;
+    }
+  };
+
   var keyEvt = function (key, evtType) {
-    return el.dispatchEvent(createKeyEvt(el, evtType, key));
+    return triggerEvent(el, evtType, createKeyEvt(el, evtType, key));
   };
 
   var inputEvt = function () {
-    return el.dispatchEvent(createInputEvt(el, 'input'));
+    return triggerEvent(el, 'input', createInputEvt(el, 'input'));
   };
   
   // Down
@@ -157,8 +174,6 @@ var triggerKey = function (el, char, callback) {
 // Simulate a key event
 //
 var createKeyEvt = function (el, evtType, opts) {
-  var evt  = document.createEvent('Event');
-
   var defaults = {
     altGraphKey: false,
     altKey: false,
@@ -176,10 +191,14 @@ var createKeyEvt = function (el, evtType, opts) {
     view: window
   };
 
-  evt.initEvent(evtType,
-    true,
-    true
-  );
+  var evt  = createEvent('Event');
+
+  if (evt.initEvent) {
+    evt.initEvent(evtType,
+      true,
+      true
+    );
+  }
 
   // Mixin values
   var key;
@@ -198,12 +217,14 @@ var createKeyEvt = function (el, evtType, opts) {
 // Simulate a input event
 //
 var createInputEvt = function (el, evtType) {
-  var evt = document.createEvent('Event');
+  var evt = createEvent('Event');
 
-  evt.initEvent('input',
-    true,
-    true
-  );
+  if (evt.initEvent) {
+    evt.initEvent(evtType,
+      true,
+      true
+    );
+  }
 
   // Return evt
   return evt; 

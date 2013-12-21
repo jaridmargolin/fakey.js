@@ -7,19 +7,27 @@
  */ 
 
 define([
-  'chai',
+  'proclaim',
   'fakey',
   'utils'
-], function (chai, fakey, utils) {
+], function (assert, fakey, utils) {
 
-
-// Cache me
-var should = chai.should(),
-    assert = chai.assert;
 
 // Need to store init state so we can reset after each test
 var content = document.getElementById('test-content'),
     contentHTML = content.innerHTML;
+
+// Cross browser helper for adding event listeners
+var addListener = function (el, evt, handler) {
+  return (typeof el.addEventListener !== "undefined")
+    ? el.addEventListener(evt, handler, false)
+    : el.attachEvent('on' + evt, handler);
+};
+
+// Cross browser helper for preventDefault
+var preventDefault = function (evt) {
+  return (evt.preventDefault) ? evt.preventDefault() : (evt.returnValue = false);
+};
 
 // Cache lookup
 var el;
@@ -29,43 +37,45 @@ var el;
 //
 var testKey = function () {
   it('Should fire a keydown evt', function (done) {
-    el.addEventListener('keydown', function (evt) {
+    addListener(el, 'keydown', function (evt) {
       done();
     });
     fakey.key(el, 'a');
   });
   it('Should break chain if preventDefault called on keydown', function () {
-    el.addEventListener('keydown', function (evt) {
-      evt.preventDefault();
+    addListener(el, 'keydown', function (evt) {
+      preventDefault(evt);
     });
-    el.addEventListener('keypress', function (evt) {
+    addListener(el, 'keypress', function (evt) {
       assert.fail();
     });
     fakey.key(el, 'a');
   });
   it('Should fire a keypress evt', function (done) {
-    el.addEventListener('keypress', function (evt) {
+    addListener(el, 'keypress', function (evt) {
       done();
     });
     fakey.key(el, 'a');
   });
   it('Should break chain if preventDefault called on keypress', function () {
-    el.addEventListener('keypress', function (evt) {
-      evt.preventDefault();
+    addListener(el, 'keypress', function (evt) {
+      preventDefault(evt);
     });
-    el.addEventListener('input', function (evt) {
+    addListener(el, 'input', function (evt) {
       assert.fail();
     });
     fakey.key(el, 'a');
   });
-  it('Should fire an input evt', function (done) {
-    el.addEventListener('input', function (evt) {
+  it('Should fire an input evt if browser supports', function (done) {
+    // Exit if we appear to be an IE browser < 9
+    if (typeof el.addEventListener == "undefined") { return done(); }
+    addListener(el, 'input', function (evt) {
       done();
     });
     fakey.key(el, 'a');
   });
   it('Should fire a keyup evt', function (done) {
-    el.addEventListener('keyup', function (evt) {
+    addListener(el, 'keyup', function (evt) {
       done();
     });
     fakey.key(el, 'a');

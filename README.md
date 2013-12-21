@@ -15,20 +15,12 @@ Why
 Both manual and automated testing of user input is a nightmare. Selenium is great for functional testing, but has a large learning curveand requires significant setup time. Fakey was created to be a plug and play solution, written in pure js.
 
 
-Install
--------
+Features
+--------
 
-### bower
-
-	bower install fakey
-
-
-Usage
------
-
-Include a reference to `fakey.js`
-
-( **AMD Compatible** )
+* Easy install: `bower install fakey`
+* AMD compatible
+* IE >= 7 support
 
 
 Methods
@@ -38,51 +30,48 @@ Methods should not be called until the DOM is ready.
 
 #### fakey.key(el, key, *count, *callback)
 
-**OPTIONS**
-
 * **el (required)**: DOM element that you would like to fake input for.
 * **key (required)**: The key you would like to fake.
 * **count (optional)**: The ammount of times to fake the above key.
 * **callback (optional)**: Callback executed after entering the specified key n times
 
-**EXAMPLE**
 
-	fakey.key(el, 'backspace', 5, function () {
-	  // Do something
-	});
+    fakey.key(el, 'backspace', 5, function () {
+      // Do something
+    });
+
+---
 
 #### fakey.str(el, str, *count, *callback)
-
-**OPTIONS**
 
 * **el (required)**: DOM element that you would like to fake input for.
 * **key (required)**: A string of keys you would like to fake.
 * **count (optional)**: The ammount of times to fake the above string.
 * **callback (optional)**: Callback executed after entering the specified string n times
 
-**EXAMPLE**
 
-	fakey.str(el, '4242', 4, function () {
-	  // Do something
-	});
+    fakey.str(el, '4242', 4, function () {
+      // Do something
+    });
+
+---
 
 #### fakey.seq(el, seq, *callback)
-
-**OPTIONS**
 
 * **el (required)**: DOM element that you would like to fake input for.
 * **seq (required)**: An array of objects representing keys and strings to sequentially fake.
 * **callback (optional)**: Callback executed after entering the specified key n times
 
-**EXAMPLE**
+**example:**
 
-	fakey.seq(el, [
-	  { str: '4242', count: 4 },
-	  { key: 'backspace', count: 8 }
-	], function () {
-	  // Do something
-	});
-
+    fakey.seq(el, [
+      { str: '4242', count: 4 },
+      { key: 'backspace', count: 8 }
+    ], function () {
+      // Do something
+    });
+    
+---
 
 License
 -------

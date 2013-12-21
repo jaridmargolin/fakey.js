@@ -1054,14 +1054,44 @@ var utils = function () {
             return str.substr(0, start) + str.substr(end, str.length);
         };
         var getSel = function (el) {
+            if (typeof el.selectionStart == 'number') {
+                return {
+                    begin: el.selectionStart,
+                    end: el.selectionEnd
+                };
+            }
+            var range = document.selection.createRange();
+            if (range && range.parentElement() == el) {
+                var inputRange = el.createTextRange(), endRange = el.createTextRange(), length = el.value.length;
+                inputRange.moveToBookmark(range.getBookmark());
+                endRange.collapse(false);
+                if (inputRange.compareEndPoints('StartToEnd', endRange) > -1) {
+                    return {
+                        begin: length,
+                        end: length
+                    };
+                }
+                return {
+                    begin: -inputRange.moveStart('character', -length),
+                    end: -inputRange.moveEnd('character', -length)
+                };
+            }
             return {
-                begin: el.selectionStart,
-                end: el.selectionEnd
+                begin: 0,
+                end: 0
             };
         };
         var setSel = function (el, pos) {
-            el.focus();
-            el.setSelectionRange(pos, pos);
+            if (el.setSelectionRange) {
+                el.focus();
+                el.setSelectionRange(pos, pos);
+            } else if (el.createTextRange) {
+                var range = el.createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', pos);
+                range.moveStart('character', pos);
+                range.select();
+            }
         };
         return {
             addChars: addChars,
@@ -1071,6 +1101,9 @@ var utils = function () {
         };
     }();
 var fakey = function (keys, utils) {
+        var createEvent = function (evt) {
+            return document.createEvent ? document.createEvent(evt) : document.createEventObject();
+        };
         var key = function (el, char, count, callback) {
             normalizeCall(triggerKey, el, char, count, callback);
         };
@@ -1121,11 +1154,20 @@ var fakey = function (keys, utils) {
         var triggerKey = function (el, char, callback) {
             var pressEvt, downEvt;
             var keyPress = keys.press(char), keyDown = keys.down(char);
+            var triggerEvent = function (el, type, evt) {
+                if (el.dispatchEvent) {
+                    return el.dispatchEvent(evt);
+                } else if (type !== 'input') {
+                    return el.fireEvent('on' + type, evt);
+                } else {
+                    return false;
+                }
+            };
             var keyEvt = function (key, evtType) {
-                return el.dispatchEvent(createKeyEvt(el, evtType, key));
+                return triggerEvent(el, evtType, createKeyEvt(el, evtType, key));
             };
             var inputEvt = function () {
-                return el.dispatchEvent(createInputEvt(el, 'input'));
+                return triggerEvent(el, 'input', createInputEvt(el, 'input'));
             };
             if (keyDown && keyEvt(keyDown, 'keydown')) {
                 if (char == 'backspace') {
@@ -1140,7 +1182,6 @@ var fakey = function (keys, utils) {
             return callback ? callback() : true;
         };
         var createKeyEvt = function (el, evtType, opts) {
-            var evt = document.createEvent('Event');
             var defaults = {
                     altGraphKey: false,
                     altKey: false,
@@ -1157,7 +1198,10 @@ var fakey = function (keys, utils) {
                     shiftKey: false,
                     view: window
                 };
-            evt.initEvent(evtType, true, true);
+            var evt = createEvent('Event');
+            if (evt.initEvent) {
+                evt.initEvent(evtType, true, true);
+            }
             var key;
             for (key in defaults) {
                 evt[key] = defaults[key];
@@ -1168,8 +1212,10 @@ var fakey = function (keys, utils) {
             return evt;
         };
         var createInputEvt = function (el, evtType) {
-            var evt = document.createEvent('Event');
-            evt.initEvent('input', true, true);
+            var evt = createEvent('Event');
+            if (evt.initEvent) {
+                evt.initEvent(evtType, true, true);
+            }
             return evt;
         };
         var addChar = function (el, char) {
