@@ -6,13 +6,13 @@ fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://t
 ![fakey](https://i.cloudup.com/GWoPR8trbs.gif)
 
 
-Fake user key events on input elements.
+Synthesize user keystrokes on input elements.
 
 
 Why
 ---
 
-Both manual and automated testing of user input is a nightmare. Selenium is great for functional testing, but has a large learning curveand requires significant setup time. Fakey was created to be a plug and play solution, written in pure js.
+I needed a lightweight solution for creating automated tests that synthesized user keystrokes on input elements. Selenium was a possibility, but it felt rather bulky, and had a large barrier to entry. Fakey was created to be a plug and play solution, written in pure js.
 
 
 Features
@@ -35,6 +35,7 @@ Methods should not be called until the DOM is ready.
 * **count (optional)**: The ammount of times to fake the above key.
 * **callback (optional)**: Callback executed after entering the specified key n times
 
+**example:**
 
     fakey.key(el, 'backspace', 5, function () {
       // Do something
@@ -49,6 +50,7 @@ Methods should not be called until the DOM is ready.
 * **count (optional)**: The ammount of times to fake the above string.
 * **callback (optional)**: Callback executed after entering the specified string n times
 
+**example:**
 
     fakey.str(el, '4242', 4, function () {
       // Do something
