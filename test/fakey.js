@@ -94,6 +94,10 @@ var testKey = function () {
       done();
     });
   });
+  it('Should handle symbols', function () {
+    fakey.key(el, '@');
+    assert.equal(el.value, '@');
+  });
 };
 
 //

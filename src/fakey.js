@@ -159,6 +159,15 @@ var triggerKey = function (el, char, callback) {
       // Input
       inputEvt();
     }
+
+  // If only a keypress event exists
+  } else if (!keyDown) {
+    if (keyPress && keyEvt(keyPress, 'keypress')) {
+      // Add char
+      addChar(el, char);
+      // Input
+      inputEvt();
+    }
   }
 
   // Up

@@ -1177,6 +1177,11 @@ var fakey = function (keys, utils) {
                     addChar(el, char);
                     inputEvt();
                 }
+            } else if (!keyDown) {
+                if (keyPress && keyEvt(keyPress, 'keypress')) {
+                    addChar(el, char);
+                    inputEvt();
+                }
             }
             keyEvt(keyDown, 'keyup');
             return callback ? callback() : true;
