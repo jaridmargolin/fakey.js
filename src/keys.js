@@ -13,29 +13,29 @@ define(function () {
 // Helper method to fix characters that cannot
 // be store as a json key
 //
-var fixChar = function (char) {
-  if (char == '"') {
-    char = 'doublequote';
-  } else if (char == '\\') {
-    char = 'forwardslash';
-  } else if (char == ' ') {
-    char = 'space';
+var fixChar = function (chr) {
+  if (chr == '"') {
+    chr = 'doublequote';
+  } else if (chr == '\\') {
+    chr = 'forwardslash';
+  } else if (chr == ' ') {
+    chr = 'space';
   }
-  return char;
+  return chr;
 };
 
 //
 // Method to get key press obj
 //
-var press = function (char) {
-  return keys.press[fixChar(char)];
+var press = function (chr) {
+  return keys.press[fixChar(chr)];
 };
 
 //
 // Method to get key down obj
 //
-var down = function (char) {
-  return keys.down[fixChar(char)];
+var down = function (chr) {
+  return keys.down[fixChar(chr)];
 };
 
 // Keys obj - press & down
@@ -43,6 +43,7 @@ var keys = {};
 
 // Press obj
 keys.press = {
+  "enter": { "which": 13, "keyCode": 13, "shiftKey": false },
   "shift": { "which": 16, "keyCode": 16, "shiftKey": true },
   "space": { "which": 32, "keyCode": 32, "shiftKey": true },
   "!": { "which": 33, "keyCode": 33, "shiftKey": true },

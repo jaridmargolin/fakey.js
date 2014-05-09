@@ -1,53 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- meta -->
-        <meta charset="utf-8" />
-        <title>Fakey Tests</title>
-
-        <!-- enable responsive viewport -->
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <head>
+    <!-- meta -->
+    <meta charset="utf-8" />
+    <title>fakey</title>
         
-        <!-- styles -->
-        <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
-    </head>
+    <!-- styles -->
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+  </head>
 
-    <body>
+  <body>
+    <!-- content -->
+    <div id="workboard"></div>
+    <div id="mocha"></div>
 
-        <form name="test" id="test-content">
-            <input type="text" name="test" pattern="\d*">
-        </form>
+    <!-- templates -->
+    <script id="tmpl-input-text" type="text/tmpl">
+      <input type="text" pattern="\d*">
+    </script>
 
-        <div id="mocha"></div>
-
-        <!-- tests -->
-        <script src="../libs/requirejs/require.js"></script>
-        <script>
-            var curURL  = window.location.href.toString(),
-                curDir  = curURL.slice(0, curURL.lastIndexOf('/')),
-                rootDir = curDir.slice(0, curDir.lastIndexOf('/'));
-
-            require.config({
-              urlArgs: "bust=" + (new Date()).getTime(),
-              baseUrl: '../src',
-              paths: {
-                'proclaim' : rootDir + '/node_modules/proclaim/lib/proclaim',
-                'mocha'     : rootDir + '/node_modules/mocha/mocha'
-              }
-            });
-
-            require(['require', 'mocha'], function(require) {
-              // mocha setup
-              mocha.setup('bdd');
-              mocha.reporter('html');
-              // begin tests
-              require([
-                './fakey.js'
-              ], function(require) {
-                if (window.mochaPhantomJS) { return mochaPhantomJS.run(); }
-                mocha.run();
-              });
-            });
-        </script>
-    </body>
+    <!-- tests -->
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="../bower_components/easy-amdtest/dist/easy-amdtest.js"></script>
+    <script>
+      var testSuite = new EasyAMDTest({
+        baseUrl: '../src',
+        urlArgs: 'bust=' + (new Date()).getTime(),
+        paths: {
+          'proclaim' : '/node_modules/proclaim/lib/proclaim',
+          "jquery"   : '/bower_components/jquery/dist/jquery',
+          'mocha'    : '/node_modules/mocha/mocha'
+        }
+      }).run({
+        name: 'mocha',
+        tests: [
+          './fakey.js'
+        ]
+      });
+    </script>
+  </body>
 </html>

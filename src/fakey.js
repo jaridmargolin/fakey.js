@@ -5,6 +5,19 @@
  *
  */ 
 
+// space
+// end
+// home
+// leftarrow
+// uparrow
+// rightarrow
+// downarrow
+// delete
+// tab
+// enter
+// escape
+
+// paste
 
 define([
   'keys',
@@ -21,8 +34,8 @@ var createEvent = function (evt) {
 //
 // Parse and trigger key
 //
-var key = function (el, char, count, callback) {
-  normalizeCall(triggerKey, el, char, count, callback);
+var key = function (el, chr, count, callback) {
+  normalizeCall(triggerKey, el, chr, count, callback);
 };
 
 //
@@ -119,14 +132,14 @@ var triggerStr = function (el, str, callback) {
 //
 // Trigger keyboard input
 //
-var triggerKey = function (el, char, callback) {
+var triggerKey = function (el, chr, callback) {
   // Evts
   var pressEvt, downEvt;
 
   // Determine what we should trigger by looking for
   // existence within keys.press, and keys.down
-  var keyPress = keys.press(char),
-      keyDown  = keys.down(char);
+  var keyPress = keys.press(chr),
+      keyDown  = keys.down(chr);
 
   var triggerEvent = function (el, type, evt) {
     // Normal browser
@@ -149,13 +162,13 @@ var triggerKey = function (el, char, callback) {
   
   // Down
   if (keyDown && keyEvt(keyDown, 'keydown')) {
-    if (char == 'backspace') {
+    if (chr == 'backspace') {
       removeChar(el);
     }
     // Press
     if (keyPress && keyEvt(keyPress, 'keypress')) {
       // Add char
-      addChar(el, char);
+      addChar(el, chr);
       // Input
       inputEvt();
     }
@@ -164,7 +177,7 @@ var triggerKey = function (el, char, callback) {
   } else if (!keyDown) {
     if (keyPress && keyEvt(keyPress, 'keypress')) {
       // Add char
-      addChar(el, char);
+      addChar(el, chr);
       // Input
       inputEvt();
     }
@@ -242,11 +255,11 @@ var createInputEvt = function (el, evtType) {
 //
 // Add char to input
 //
-var addChar = function (el, char) {
+var addChar = function (el, chr) {
   // Get curPos
   var curPos = utils.getSel(el).begin;
   // Add char
-  el.value = utils.addChars(el.value, char, curPos);
+  el.value = utils.addChars(el.value, chr, curPos);
   // Move caret
   utils.setSel(el, curPos + 1);
 };
