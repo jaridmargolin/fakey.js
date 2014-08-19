@@ -4,7 +4,7 @@
  * Copyright (c) 2014
  */
 
-define(function () {
+
 
 
 //
@@ -88,7 +88,7 @@ var setSel = function (el, pos) {
 };
 
 // Expose
-return {
+module.exports = {
   addChars: addChars,
   remChars: remChars,
   getSel: getSel,
@@ -96,4 +96,3 @@ return {
 };
 
 
-});

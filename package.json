@@ -1,34 +1,25 @@
 {
-  "name": "fakey",
-  "version": "0.0.8",
+  "name": "fakey.js",
   "description": "Fake user interactions.",
   "author": "Jarid Margolin <jaridmargolin@gmail.com>",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jaridmargolin/fakey.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaridmargolin/fakey"
+    "url": "https://github.com/jaridmargolin/fakey.js"
   },
   "bugs": {
-    "url": "https://github.com/jaridmargolin/fakey/issues"
+    "url": "https://github.com/jaridmargolin/fakey.js/issues"
   },
   "scripts": {
-    "test": "grunt test-local"
+    "test": "grunt test"
   },
+  "main": "dist/common/fakey.js",
   "devDependencies": {
-    "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-mocha-phantomjs": "~0.4.0",
-    "grunt-contrib-connect": "~0.7.1",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-jshint": "~0.9.2",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-saucelabs": "~5.1.0",
-    "grunt-umd": "~1.7.3",
-    "matchdep": "~0.3.0",
+    "easy-build": "~0.0.1",
+    "jquery": "~1.11.1",
     "proclaim": "~2.0.0",
-    "amdclean": "~1.5.0",
-    "grunt": "~0.4.3",
-    "mocha": "~1.18.0",
-    "sinon": "~1.9.0"
+    "sinon": "~1.10.1"
   },
   "license": "MIT"
 }

@@ -1,10 +1,8 @@
-/*
- * test/utils.js:
- *
- * (C) 2013 First Opinion
- * MIT LICENCE
- *
- */ 
+/*!
+ * test/fakey.js
+ * 
+ * Copyright (c) 2014
+ */
 
 define([
   'jquery',
@@ -37,7 +35,7 @@ describe('fakey', function () {
 
   // Add fresh element
   beforeEach(function () {
-    var html = $('#tmpl-input-text').html();
+    var html = '<input type="text" pattern="\\d*">';
     $el = $(html);
     el = $el[0];
 
@@ -88,7 +86,7 @@ describe('fakey', function () {
 
     it('Should fire an input evt if browser supports', function (done) {
       // Exit if we appear to be an IE browser < 9
-      if (typeof el.addEventListener == "undefined") { return done(); }
+      if (typeof el.addEventListener === "undefined") { return done(); }
       addListener(el, 'input', function (evt) {
         done();
       });

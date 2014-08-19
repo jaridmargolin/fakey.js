@@ -4,10 +4,8 @@
  * Copyright (c) 2014
  */
 
-define([
-  './keys',
-  './utils'
-], function (keys, utils) {
+var keys = require('./keys');
+var utils = require('./utils');
 
 // Crossbrowser creatEvent
 var createEvent = function (evt) {
@@ -262,11 +260,10 @@ var removeChar = function (el) {
 };
 
 // Expose
-return {
+module.exports = {
   key: key,
   str: str,
   seq: seq
 };
 
 
-});

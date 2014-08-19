@@ -1,7 +1,5 @@
-fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://travis-ci.org/jaridmargolin/fakey)
+fakey.js [![Build Status](https://travis-ci.org/jaridmargolin/fakey.js.png)](https://travis-ci.org/jaridmargolin/fakey.js)
 =====
-
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/jaridmargolin_fakey.svg)](https://saucelabs.com/u/jaridmargolin_fakey)   
 
 ![fakey](https://i.cloudup.com/GWoPR8trbs.gif)
 
@@ -9,22 +7,22 @@ fakey [![Build Status](https://travis-ci.org/jaridmargolin/fakey.png)](https://t
 Synthesize user keystrokes on input elements.
 
 
-Why
----
+
+## Why
 
 I needed a lightweight solution for creating automated tests that synthesized user keystrokes on input elements. Selenium was a possibility, but it felt rather bulky, and had a large barrier to entry. Fakey was created to be a plug and play solution, written in pure js.
 
 
-Features
---------
+
+## Features
 
 * Easy install: `bower install fakey`
 * AMD compatible
 * IE >= 7 support
 
 
-Methods
--------
+
+## Methods
 
 Methods should not be called until the DOM is ready.
 
@@ -41,7 +39,6 @@ Methods should not be called until the DOM is ready.
       // Do something
     });
 
----
 
 #### fakey.str(el, str, *count, *callback)
 
@@ -56,7 +53,6 @@ Methods should not be called until the DOM is ready.
       // Do something
     });
 
----
 
 #### fakey.seq(el, seq, *callback)
 
@@ -72,13 +68,28 @@ Methods should not be called until the DOM is ready.
     ], function () {
       // Do something
     });
-    
----
 
-License
--------
 
-The MIT License (MIT) Copyright (c) 2013 Jarid Margolin
+
+## TESTS
+
+**Install Dependencies**
+
+```
+npm install
+```
+
+**Run/View**
+
+```
+npm test
+```
+
+
+
+## License
+
+The MIT License (MIT) Copyright (c) 2014 Jarid Margolin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

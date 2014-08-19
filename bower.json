@@ -1,9 +1,12 @@
 {
-  "name": "fakey",
-  "version": "0.0.8",
-  "devDependencies": {
-    "easy-amdtest": "~0.0.1",
-  	"requirejs": "~2.1.9",
-    "jquery": "~1.11.0"
-  }
+  "name": "fakey.js",
+  "version": "0.1.0",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "src",
+    "docs",
+    "test",
+    "build"
+  ]
 }

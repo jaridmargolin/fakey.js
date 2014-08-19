@@ -4,7 +4,7 @@
  * Copyright (c) 2014
  */
 
-define(function () {
+
 
 
 //
@@ -253,10 +253,9 @@ keys.down = {
 };
 
 // Expose
-return {
+module.exports = {
   press: press,
   down: down
 };
 
 
-});
