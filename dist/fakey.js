@@ -1151,7 +1151,11 @@ utils = function () {
     // If normal browser
     if (el.setSelectionRange) {
       el.focus();
-      el.setSelectionRange(pos, pos);
+      try {
+        el.setSelectionRange(pos, pos);
+      } catch (e) {
+        console.error("fakey failed to set the caret", el, pos, e);
+      }
     } else if (el.createTextRange) {
       var range = el.createTextRange();
       range.collapse(true);
