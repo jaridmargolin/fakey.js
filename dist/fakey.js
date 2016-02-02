@@ -1151,7 +1151,11 @@ utils = function () {
     // If normal browser
     if (el.setSelectionRange) {
       el.focus();
-      el.setSelectionRange(pos, pos);
+      try {
+        el.setSelectionRange(pos, pos);
+      } catch (e) {
+        console.error('fakey failed to set the caret', el, pos, e);
+      }
     } else if (el.createTextRange) {
       var range = el.createTextRange();
       range.collapse(true);
@@ -1313,21 +1317,21 @@ fakey = function (keys, utils) {
   //
   var createKeyEvt = function (el, evtType, opts) {
     var defaults = {
-        altGraphKey: false,
-        altKey: false,
-        ctrlKey: false,
-        detail: 0,
-        keyIdentifier: 'false',
-        keyLocation: 0,
-        layerX: 0,
-        layerY: 0,
-        location: 0,
-        metaKey: false,
-        pageX: 0,
-        pageY: 0,
-        shiftKey: false,
-        view: window
-      };
+      altGraphKey: false,
+      altKey: false,
+      ctrlKey: false,
+      detail: 0,
+      keyIdentifier: 'false',
+      keyLocation: 0,
+      layerX: 0,
+      layerY: 0,
+      location: 0,
+      metaKey: false,
+      pageX: 0,
+      pageY: 0,
+      shiftKey: false,
+      view: window
+    };
     var evt = createEvent('Event');
     if (evt.initEvent) {
       evt.initEvent(evtType, true, true);
