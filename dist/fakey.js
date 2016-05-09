@@ -1379,7 +1379,4 @@
         };
     }(_keys_, utils);
 
-    return fakey;
-
-
 })();
