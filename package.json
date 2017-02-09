@@ -1,5 +1,5 @@
 {
-  "name": "fakey.js",
+  "name": "@egis/fakey",
   "description": "Fake user interactions.",
   "author": "Jarid Margolin <jaridmargolin@gmail.com>",
   "version": "0.1.0",
