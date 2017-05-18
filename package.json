@@ -2,7 +2,7 @@
   "name": "@egis/fakey",
   "description": "Fake user interactions.",
   "author": "Jarid Margolin <jaridmargolin@gmail.com>",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/jaridmargolin/fakey.js",
   "repository": {
     "type": "git",
