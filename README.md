@@ -1,4 +1,4 @@
-fakey.js [![Build Status](https://travis-ci.org/jaridmargolin/fakey.js.png)](https://travis-ci.org/jaridmargolin/fakey.js)
+fakey.js [![Build Status](https://travis-ci.org/artemv/fakey.js.png)](https://travis-ci.org/artemv/fakey.js)
 =====
 
 ![fakey](https://i.cloudup.com/GWoPR8trbs.gif)
