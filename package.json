@@ -16,7 +16,7 @@
   },
   "main": "dist/common/fakey.js",
   "devDependencies": {
-    "grunt": "~1.0.1",
+    "grunt": "~0.4.5",
     "easy-build": "~1.0.1",
     "jquery": "~1.11.1",
     "proclaim": "~2.0.0",
