@@ -69,6 +69,25 @@ var getSel = function (el) {
 };
 
 //
+// Set the caret position at a specified location - IE variation
+//
+var setSelIe = function(el, pos, e) {
+    if (el.createTextRange) {
+        var range = el.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        try {
+            range.select();
+        } catch (e) {
+            console.error('fakey failed to set the caret', el, pos, e);
+        }
+    } else {
+        console.error("fakey failed to set the caret", el, pos, e);
+    }
+};
+
+//
 // Set the caret position at a specified location
 //
 var setSel = function (el, pos) {
@@ -78,15 +97,11 @@ var setSel = function (el, pos) {
     try {
        el.setSelectionRange(pos, pos);
     } catch (e) {
-        console.error("fakey failed to set the caret", el, pos, e);
+        setSelIe(el, pos, e);
     }
   // IE = TextRange fun
-  } else if (el.createTextRange) {
-    var range = el.createTextRange();
-    range.collapse(true);
-    range.moveEnd('character', pos);
-    range.moveStart('character', pos);
-    range.select();
+  } else {
+    setSelIe(el, pos);
   }
 };
 
